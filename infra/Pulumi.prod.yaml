@@ -1,0 +1,4 @@
+config:
+  gcp:project: ride-app-prod
+  gcp:region: asia-south2
+  service:name: notification-service

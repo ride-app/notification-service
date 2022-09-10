@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+package ride.notification.v1alpha1;
+
+service NotificationService {
+
+  rpc GetNotificationToken (GetNotificationTokenRequest) returns (GetNotificationTokenResponse) {
+    option (google.api.http) = {
+      get: "/v1alpha1/{parent=users/*}/token"
+    };
+  };
+
+  rpc UpdateNotificationToken (UpdateNotificationTokenRequest) returns (UpdateNotificationTokenResponse) {
+    option (google.api.http) = {
+      patch: "/v1alpha1/{parent=users/*}/token"
+      body: "*"
+    };
+  };
+
+  // rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse) {
+  //   option (google.api.http) = {
+  //     post: "/v1alpha1/notification"
+  //     body: "notification"
+  //   };
+  // }
+}
+
+message GetNotificationTokenRequest {
+  // Relative resource name of the user for which the notification token is requested. Example: users/123
+  string parent = 1 [(validate.rules).string.pattern = "users/[A-Za-z0-9_-]+$"];
+}
+
+message GetNotificationTokenResponse {
+  // Notification token of the user.
+  string token = 1;
+}
+
+message UpdateNotificationTokenRequest {
+  // Relative resource name of the user for which the notification token is updated. Example: users/123
+  string parent = 1 [(validate.rules).string.pattern = "users/[A-Za-z0-9_-]+$"];
+
+  // Notification token of the user.
+  string token = 2;
+}
+
+message UpdateNotificationTokenResponse {}
+
+// message SendNotificationRequest {
+//   // Target of the notification. Can be user, token, topic or condition.
+//   Target target = 1;
+
+//   // Notification to be sent.
+//   map<string, string> payload = 2;
+
+//   message Target {
+//     oneof target {
+//       // Relative resource name of the user to which the notification is sent. Example: users/123
+//       string user = 1 [(validate.rules).string.pattern = "users/[A-Za-z0-9_-]+$"];
+
+//       // Notification token of the user to which the notification is sent.
+//       string token = 2;
+
+//       // Topic to which the notification is sent.
+//       string topic = 3;
+
+//       // Condition to which the notification is sent.
+//       string condition = 4;
+//     }
+//   }
+// }
+
+// message SendNotificationResponse {}
