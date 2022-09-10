@@ -9,31 +9,28 @@ const serviceName = serviceConfig.get("name") || pulumi.getProject();
 
 // Cloud Run
 
-const service = new gcp.cloudrun.Service(
-  serviceName,
-  {
-    location,
-    template: {
-      metadata: {
-        annotations: {
-          "autoscaling.knative.dev/maxScale": "30",
-        }
-      },
-      spec: {
-        containers: [
-          {
-            image: `asia-south2-docker.pkg.dev/${
-              gcp.config.project
-            }/delhi-container-registry/${serviceName}:${
-              imageconfig.get("tag") ?? "latest"
-            }`,
-            ports: [{ containerPort: 50051, name: "h2c" }],
-          },
-        ],
+const service = new gcp.cloudrun.Service(serviceName, {
+  location,
+  template: {
+    metadata: {
+      annotations: {
+        "autoscaling.knative.dev/maxScale": "30",
       },
     },
+    spec: {
+      containers: [
+        {
+          image: `asia-south2-docker.pkg.dev/${
+            gcp.config.project
+          }/delhi-container-registry/${serviceName}:${
+            imageconfig.get("tag") ?? "latest"
+          }`,
+          ports: [{ containerPort: 50051, name: "h2c" }],
+        },
+      ],
+    },
   },
-);
+});
 
 const policyData = gcp.organizations.getIAMPolicy({
   bindings: [

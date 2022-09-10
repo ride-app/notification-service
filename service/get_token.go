@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (service *NotificationServiceServer) GetToken(ctx context.Context, req *pb.GetNotificationTokenRequest) (*pb.GetNotificationTokenResponse, error)  {
+func (service *NotificationServiceServer) GetToken(ctx context.Context, req *pb.GetNotificationTokenRequest) (*pb.GetNotificationTokenResponse, error) {
 
 	if err := req.Validate(); err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())

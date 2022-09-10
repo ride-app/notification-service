@@ -13,11 +13,11 @@ import (
 type TokenRepository interface {
 	GetToken(ctx context.Context, uid string) (string, error)
 
-	UpdateToken(ctx context.Context, uid string, token string) (error)
+	UpdateToken(ctx context.Context, uid string, token string) error
 }
 
 type RTDBImpl struct {
-	rtdb           *db.Client
+	rtdb *db.Client
 }
 
 func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
@@ -46,7 +46,7 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (string, error) 
 	return token, nil
 }
 
-func (impl *RTDBImpl) UpdateToken(ctx context.Context, uid string, token string) (error) {
+func (impl *RTDBImpl) UpdateToken(ctx context.Context, uid string, token string) error {
 	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Set(ctx, token)
 
 	if err != nil {

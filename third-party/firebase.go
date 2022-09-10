@@ -18,7 +18,5 @@ func NewFirebaseApp() (*firebase.App, error) {
 		return nil, err
 	}
 
-	app.Database(ctx)
-
 	return app, nil
 }
