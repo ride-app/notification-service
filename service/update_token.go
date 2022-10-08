@@ -15,7 +15,7 @@ func (service *NotificationServiceServer) UpdateToken(ctx context.Context, req *
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	uid := strings.Split(req.Parent, "/")[1]
+	uid := strings.Split(req.Name, "/")[1]
 
 	err := service.tokenRepository.UpdateToken(ctx, uid, req.Token)
 

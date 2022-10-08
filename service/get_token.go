@@ -17,7 +17,7 @@ func (service *NotificationServiceServer) GetToken(ctx context.Context, req *pb.
 
 	//TODO: implement authentication
 
-	uid := strings.Split(req.Parent, "/")[1]
+	uid := strings.Split(req.Name, "/")[1]
 
 	token, err := service.tokenRepository.GetToken(ctx, uid)
 

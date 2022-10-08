@@ -10,13 +10,13 @@ service NotificationService {
 
   rpc GetNotificationToken (GetNotificationTokenRequest) returns (GetNotificationTokenResponse) {
     option (google.api.http) = {
-      get: "/v1alpha1/{parent=users/*}/token"
+    get: "/v1alpha1/{name=users/*/token}"
     };
   };
 
   rpc UpdateNotificationToken (UpdateNotificationTokenRequest) returns (UpdateNotificationTokenResponse) {
     option (google.api.http) = {
-      patch: "/v1alpha1/{parent=users/*}/token"
+    patch: "/v1alpha1/{name=users/*/token}"
       body: "*"
     };
   };
@@ -30,8 +30,8 @@ service NotificationService {
 }
 
 message GetNotificationTokenRequest {
-  // Relative resource name of the user for which the notification token is requested. Example: users/123
-  string parent = 1 [(validate.rules).string.pattern = "users/[A-Za-z0-9_-]+$"];
+  // Relative resource name of the notification token. Example: users/123/token
+  string name = 1 [(validate.rules).string.pattern = "users/[A-Za-z0-9_-]+$/token"];
 }
 
 message GetNotificationTokenResponse {
@@ -40,8 +40,8 @@ message GetNotificationTokenResponse {
 }
 
 message UpdateNotificationTokenRequest {
-  // Relative resource name of the user for which the notification token is updated. Example: users/123
-  string parent = 1 [(validate.rules).string.pattern = "users/[A-Za-z0-9_-]+$"];
+  // Relative resource name of the notification token. Example: users/123/token
+  string name = 1 [(validate.rules).string.pattern = "users/[A-Za-z0-9_-]+/token$"];
 
   // Notification token of the user.
   string token = 2;
