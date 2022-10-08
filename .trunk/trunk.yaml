@@ -5,12 +5,12 @@ runtimes:
     - node@16.14.2
 actions:
   enabled:
+    - buf-gen
     - trunk-upgrade-available
     - trunk-cache-prune
     - trunk-fmt-pre-commit
     - trunk-check-pre-push
     - generate-di
-    - gen-proto
     - buf-mod-update
 
   definitions:
@@ -20,10 +20,10 @@ actions:
       run: go run github.com/google/wire/cmd/wire
       run_from: di
 
-    - id: gen-proto
-      run: buf generate
-      triggers:
-        - files: [api/proto/**/*.proto]
+    # - id: gen-proto
+    #   run: buf generate
+    #   triggers:
+    #     - files: [api/proto/**/*.proto]
 
     - id: buf-mod-update
       triggers:
@@ -35,14 +35,14 @@ cli:
 plugins:
   sources:
     - id: trunk
-      ref: v0.0.3
+      ref: v0.0.5
       uri: https://github.com/trunk-io/plugins
 lint:
   enabled:
-    - actionlint@1.6.17
+    - actionlint@1.6.20
     - git-diff-check@SYSTEM
-    - gitleaks@8.12.0
+    - gitleaks@8.13.0
     - gofmt@1.16.7
-    - golangci-lint@1.46.2
+    - golangci-lint@1.50.0
     - hadolint@2.10.0
     - prettier@2.7.1
