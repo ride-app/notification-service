@@ -4,7 +4,7 @@
     "@types/node": "^18.11.18"
   },
   "dependencies": {
-    "@pulumi/gcp": "^6.47.0",
+    "@pulumi/gcp": "^6.48.0",
     "@pulumi/pulumi": "^3.52.1"
   }
 }
