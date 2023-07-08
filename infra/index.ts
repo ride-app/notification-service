@@ -10,7 +10,8 @@ const serviceName = serviceConfig.get("name") || pulumi.getProject();
 
 // Cloud Run
 
-const service = new gcp.cloudrun.Service(serviceName, {
+const service = new gcp.cloudrun.Service("service", {
+  name: serviceName,
   location,
   template: {
     metadata: {
@@ -23,7 +24,7 @@ const service = new gcp.cloudrun.Service(serviceName, {
         {
           image: `asia-south2-docker.pkg.dev/${
             gcp.config.project
-          }/delhi-container-registry/${serviceName}:${
+          }/docker-registry/${serviceName}:${
             imageconfig.get("tag") ?? "latest"
           }`,
           ports: [{ containerPort: 50051, name: "h2c" }],
