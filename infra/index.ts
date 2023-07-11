@@ -30,10 +30,14 @@ const service = new gcp.cloudrun.Service("service", {
           ports: [{ containerPort: 50051, name: "h2c" }],
           envs: [
             {
+              name: "FIREBASE_PROJECT_ID",
+              value: gcp.config.project,
+            },
+            {
               name: "FIREBASE_DATABASE_URL",
               value: firebaseConfig.get("databaseURL"),
-            }
-          ]
+            },
+          ],
         },
       ],
     },
