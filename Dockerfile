@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Create .netrc file for private go module
-FROM bufbuild/buf:1.4.0 as buf
+FROM bufbuild/buf:1.22.0 as buf
 
 ARG BUF_USERNAME ""
 
@@ -10,7 +10,7 @@ RUN --mount=type=secret,id=BUF_TOKEN \
   buf registry login --username=$BUF_USERNAME --token-stdin < /run/secrets/BUF_TOKEN
 
 # Build go binary
-FROM golang:1.18-alpine as build
+FROM golang:1.20-alpine as build
 
 WORKDIR /go/src/app
 
