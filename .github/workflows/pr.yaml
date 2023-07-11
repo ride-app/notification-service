@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Lint
     env:
-      GOPRIVATE: go.buf.build
+      GOPRIVATE: buf.build/gen/go
       BUF_USER: debkanchan
 
     steps:

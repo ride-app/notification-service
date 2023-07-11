@@ -3,17 +3,17 @@ module github.com/ride-app/notification-service
 go 1.19
 
 require (
+	buf.build/gen/go/envoyproxy/protoc-gen-validate/protocolbuffers/go v1.31.0-20221025150516-6607b10f00ed.1
 	firebase.google.com/go/v4 v4.8.0
+	github.com/bufbuild/connect-go v1.9.0
 	github.com/golang/mock v1.6.0
 	github.com/google/wire v0.5.0
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3
 	github.com/ilyakaznacheev/cleanenv v1.3.0
 	github.com/onsi/ginkgo/v2 v2.1.6
 	github.com/sirupsen/logrus v1.9.0
-	go.buf.build/grpc/go/envoyproxy/protoc-gen-validate v1.4.7
 	google.golang.org/genproto v0.0.0-20220909194730-69f6226f97e5
 	google.golang.org/grpc v1.49.0
-	google.golang.org/protobuf v1.28.1
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
@@ -26,7 +26,7 @@ require (
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/go-cmp v0.5.8 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/pprof v0.0.0-20210720184732-4bb14d4b1be1 // indirect
 	github.com/google/subcommands v1.0.1 // indirect
 	github.com/google/uuid v1.1.2 // indirect
