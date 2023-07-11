@@ -11,7 +11,7 @@ import (
 )
 
 type TokenRepository interface {
-	GetToken(ctx context.Context, uid string) (string, error)
+	GetToken(ctx context.Context, uid string) (*string, error)
 
 	UpdateToken(ctx context.Context, uid string, token string) error
 }
@@ -30,17 +30,17 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 	return &RTDBImpl{rtdb: rtdb}, nil
 }
 
-func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (string, error) {
-	var token string
+func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error) {
+	var token *string
 
 	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, token)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	if token == "" {
-		return "", nil
+	if token == nil || *token == "" {
+		return nil, nil
 	}
 
 	return token, nil

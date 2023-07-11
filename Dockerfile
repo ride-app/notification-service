@@ -21,7 +21,7 @@ COPY go.mod go.sum /
 RUN go mod download && go mod verify
 
 COPY . .
-RUN CGO_ENABLED=0 go build -o /go/bin/app
+RUN CGO_ENABLED=0 go build -o /go/bin/app -o /go/bin/app -ldflags "-X google.golang.org/protobuf/reflect/protoregistry.conflictPolicy=warn"
 
 # Run
 FROM gcr.io/distroless/static:nonroot
