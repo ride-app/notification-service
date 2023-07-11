@@ -1,8 +1,9 @@
 version: 0.1
 runtimes:
   enabled:
-    - go@1.18.3
-    - node@16.14.2
+    - python@3.10.8
+    - go@1.19.5
+    - node@18.12.1
 actions:
   enabled:
     - buf-gen
@@ -31,21 +32,28 @@ actions:
       run: buf mod update api/proto
 
 cli:
-  version: 0.18.1-beta
+  version: 1.11.1
 plugins:
   sources:
     - id: trunk
-      ref: v0.0.5
+      ref: v0.0.21
       uri: https://github.com/trunk-io/plugins
 lint:
   enabled:
-    - actionlint@1.6.20
+    - checkov@2.3.316
+    - gokart@0.5.1
+    - osv-scanner@1.3.4
+    - terrascan@1.18.1
+    - trivy@0.43.1
+    - trufflehog@3.43.0
+    - yamllint@1.32.0
+    - actionlint@1.6.25
     - git-diff-check@SYSTEM
-    - gitleaks@8.13.0
-    - gofmt@1.16.7
-    - golangci-lint@1.50.0
-    - hadolint@2.10.0
-    - prettier@2.7.1
+    - gitleaks@8.17.0
+    - gofmt@1.20.4
+    - golangci-lint@1.53.3
+    - hadolint@2.12.0
+    - prettier@3.0.0
 
 merge:
   required_statuses:
