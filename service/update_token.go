@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"strings"
 
 	"github.com/bufbuild/connect-go"
@@ -17,6 +18,10 @@ func (service *NotificationServiceServer) UpdateNotificationToken(ctx context.Co
 	}
 
 	uid := strings.Split(req.Msg.Name, "/")[1]
+
+	if uid != req.Header().Get("uid") {
+		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	}
 
 	if req.Msg.Token == "" {
 		return nil, status.Error(codes.InvalidArgument, "Token cannot be empty")

@@ -65,6 +65,8 @@ func NewAuthInterceptor(ctx context.Context) (*connect.UnaryInterceptorFunc, err
 				)
 			}
 
+			req.Header().Set("uid", token.Claims.(jwt.MapClaims)["user_id"].(string))
+
 			return next(ctx, req)
 		})
 	}

@@ -15,14 +15,16 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
-	//TODO: implement authentication
-
 	uid := strings.Split(req.Msg.Name, "/")[1]
+
+	if uid != req.Header().Get("uid") {
+		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	}
 
 	token, err := service.tokenRepository.GetToken(ctx, uid)
 
 	if token == nil {
-		return nil, connect.NewError(connect.CodeNotFound, errors.New("Token not found"))
+		return nil, connect.NewError(connect.CodeNotFound, errors.New("token not found"))
 	}
 
 	if err != nil {
