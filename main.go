@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -8,10 +9,12 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/bufbuild/connect-go"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/ride-app/notification-service/api/gen/ride/notification/v1alpha1/notificationv1alpha1connect"
 	"github.com/ride-app/notification-service/config"
 	"github.com/ride-app/notification-service/di"
+	"github.com/ride-app/notification-service/interceptors"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 
@@ -27,7 +30,20 @@ func main() {
 
 	log.Info("Service Initialized")
 
-	path, handler := notificationv1alpha1connect.NewNotificationServiceHandler(service)
+	// Create a context that, when cancelled, ends the JWKS background refresh goroutine.
+	ctx, cancel := context.WithCancel(context.Background())
+
+	defer cancel()
+
+	authInterceptor, err := interceptors.NewAuthInterceptor(ctx)
+
+	if err != nil {
+		log.Fatalf("Failed to initialize auth interceptor: %v", err)
+	}
+
+	connectInterceptors := connect.WithInterceptors(authInterceptor)
+
+	path, handler := notificationv1alpha1connect.NewNotificationServiceHandler(service, connectInterceptors)
 	mux := http.NewServeMux()
 	mux.Handle(path, handler)
 
