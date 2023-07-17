@@ -35,7 +35,7 @@ const service = new gcp.cloudrun.Service("service", {
             },
             {
               name: "FIREBASE_DATABASE_URL",
-              value: firebaseConfig.get("databaseURL"),
+              value: firebaseConfig.require("databaseURL"),
             },
           ],
         },
