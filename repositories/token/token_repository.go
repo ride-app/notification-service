@@ -34,7 +34,7 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 }
 
 func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error) {
-	var token *string = new(string)
+	var token string
 
 	log.Info("getting token from rtdb")
 	log.Debug(fmt.Sprintf("path: messaging_tokens/%s", uid))
@@ -44,12 +44,12 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 		return nil, err
 	}
 
-	if token == nil || *token == "" {
+	if token == "" {
 		log.Info("token not found")
 		return nil, nil
 	}
 
-	return token, nil
+	return &token, nil
 }
 
 func (impl *RTDBImpl) UpdateToken(ctx context.Context, uid string, token string) error {
