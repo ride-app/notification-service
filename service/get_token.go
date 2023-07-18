@@ -38,6 +38,7 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 	}
 
 	log.Info("successfully retrieved token")
+	log.Debug("token: ", *token)
 
 	return connect.NewResponse(&pb.GetNotificationTokenResponse{
 		Token: *token,
