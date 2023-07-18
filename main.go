@@ -77,6 +77,8 @@ func init() {
 		})
 	}
 
+	log.SetFormatter(&log.JSONFormatter{})
+
 	err := cleanenv.ReadEnv(&config.Env)
 
 	if err != nil {
