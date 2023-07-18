@@ -22,10 +22,10 @@ func main() {
 	service, err := di.InitializeService()
 
 	if err != nil {
-		log.Fatalf("Failed to initialize service: %v", err)
+		log.Fatalf("failed to initialize service: %v", err)
 	}
 
-	log.Info("Service Initialized")
+	log.Info("service Initialized")
 
 	// Create a context that, when cancelled, ends the JWKS background refresh goroutine.
 	ctx, cancel := context.WithCancel(context.Background())
@@ -35,7 +35,7 @@ func main() {
 	authInterceptor, err := interceptors.NewAuthInterceptor(ctx)
 
 	if err != nil {
-		log.Fatalf("Failed to initialize auth interceptor: %v", err)
+		log.Fatalf("failed to initialize auth interceptor: %v", err)
 	}
 
 	connectInterceptors := connect.WithInterceptors(authInterceptor)

@@ -40,12 +40,9 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 	log.Debug(fmt.Sprintf("path: messaging_tokens/%s", uid))
 
 	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, token); err != nil {
-		log.Info("failed to get token from rtdb")
-		log.Error(err)
+		log.Errorf("failed to get token from rtdb: %v", err)
 		return nil, err
 	}
-
-	log.Debug(token)
 
 	if token == nil || *token == "" {
 		log.Info("token not found")

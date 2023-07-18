@@ -7,15 +7,19 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	pb "github.com/ride-app/notification-service/api/gen/ride/notification/v1alpha1"
+	log "github.com/sirupsen/logrus"
 )
 
 func (service *NotificationServiceServer) GetNotificationToken(ctx context.Context, req *connect.Request[pb.GetNotificationTokenRequest]) (*connect.Response[pb.GetNotificationTokenResponse], error) {
 
 	if err := req.Msg.Validate(); err != nil {
+		log.Info("invalid request")
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
 	uid := strings.Split(req.Msg.Name, "/")[1]
+	log.Debug("uid: ", uid)
+	log.Debug("req header uid", req.Header().Get("uid"))
 
 	if uid != req.Header().Get("uid") {
 		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
@@ -28,6 +32,8 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 	}
 
 	if err != nil {
+		log.Info("failed to get token")
+		log.Error(err)
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
