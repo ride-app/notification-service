@@ -38,9 +38,8 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 	var data *map[string]interface{}
 
 	logrus.Info("getting token from rtdb")
-	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, data)
 
-	if err != nil {
+	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, data); err != nil {
 		logrus.Info("failed to get token from rtdb")
 		logrus.Error(err)
 		return nil, err
