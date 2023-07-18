@@ -17,7 +17,7 @@ func NewAuthInterceptor(ctx context.Context) (*connect.UnaryInterceptorFunc, err
 	options := keyfunc.Options{
 		Ctx: ctx,
 		RefreshErrorHandler: func(err error) {
-			log.Fatalf("There was an error with the jwt.Keyfunc\nError: %s", err)
+			log.Fatal("There was an error with the jwt.Keyfunc: ", err)
 		},
 		RefreshInterval:   time.Hour,
 		RefreshRateLimit:  time.Minute * 5,
