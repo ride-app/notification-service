@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/ilyakaznacheev/cleanenv"
@@ -73,7 +74,14 @@ func init() {
 	// })
 	// }
 
-	log.SetFormatter(&log.JSONFormatter{})
+	log.SetFormatter(&log.JSONFormatter{
+		FieldMap: log.FieldMap{
+			log.FieldKeyTime:  "timestamp",
+			log.FieldKeyLevel: "severity",
+			log.FieldKeyMsg:   "message",
+		},
+		TimestampFormat: time.RFC3339Nano,
+	})
 
 	err := cleanenv.ReadEnv(&config.Env)
 
