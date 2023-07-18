@@ -19,7 +19,7 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 
 	uid := strings.Split(req.Msg.Name, "/")[1]
 	log.Debug("uid: ", uid)
-	log.Debug("req header uid", req.Header().Get("uid"))
+	log.Debug("req header uid: ", req.Header().Get("uid"))
 
 	if uid != req.Header().Get("uid") {
 		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
