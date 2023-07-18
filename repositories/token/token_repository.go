@@ -8,7 +8,7 @@ import (
 
 	firebase "firebase.google.com/go/v4"
 	db "firebase.google.com/go/v4/db"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 type TokenRepository interface {
@@ -25,8 +25,8 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 	rtdb, err := firebaseApp.Database(context.Background())
 
 	if err != nil {
-		logrus.Info("failed to initialize rtdb")
-		logrus.Error(err)
+		log.Info("failed to initialize rtdb")
+		log.Error(err)
 		return nil, err
 	}
 
@@ -34,22 +34,21 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 }
 
 func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error) {
-	var token *string
-	var data *interface{}
+	var token *string = new(string)
 
-	logrus.Info("getting token from rtdb")
-	logrus.Debug(fmt.Sprintf("path: messaging_tokens/%s", uid))
+	log.Info("getting token from rtdb")
+	log.Debug(fmt.Sprintf("path: messaging_tokens/%s", uid))
 
-	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, data); err != nil {
-		logrus.Info("failed to get token from rtdb")
-		logrus.Error(err)
+	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, token); err != nil {
+		log.Info("failed to get token from rtdb")
+		log.Error(err)
 		return nil, err
 	}
 
-	logrus.Debug(data)
+	log.Debug(token)
 
 	if token == nil || *token == "" {
-		logrus.Info("token not found")
+		log.Info("token not found")
 		return nil, nil
 	}
 
@@ -57,12 +56,11 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 }
 
 func (impl *RTDBImpl) UpdateToken(ctx context.Context, uid string, token string) error {
-	logrus.Info("updating token in rtdb")
-	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Set(ctx, token)
+	log.Info("updating token in rtdb")
 
-	if err != nil {
-		logrus.Info("failed to update token in rtdb")
-		logrus.Error(err)
+	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Set(ctx, token); err != nil {
+		log.Info("failed to update token in rtdb")
+		log.Error(err)
 		return err
 	}
 
