@@ -37,6 +37,8 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
+	log.Info("successfully retrieved token")
+
 	return connect.NewResponse(&pb.GetNotificationTokenResponse{
 		Token: *token,
 	}), nil

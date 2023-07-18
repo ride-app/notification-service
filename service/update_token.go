@@ -38,5 +38,7 @@ func (service *NotificationServiceServer) UpdateNotificationToken(ctx context.Co
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
+	log.Info("successfully updated token")
+
 	return connect.NewResponse(&pb.UpdateNotificationTokenResponse{}), nil
 }
