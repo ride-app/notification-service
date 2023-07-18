@@ -35,9 +35,10 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 
 func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error) {
 	var token *string
+	var data map[string]interface{}
 
 	logrus.Info("getting token from rtdb")
-	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, token)
+	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, data)
 
 	if err != nil {
 		logrus.Info("failed to get token from rtdb")
@@ -45,7 +46,7 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 		return nil, err
 	}
 
-	logrus.Debug(token)
+	logrus.Debug(data)
 
 	if token == nil || *token == "" {
 		logrus.Info("token not found")
