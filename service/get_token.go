@@ -13,32 +13,32 @@ import (
 func (service *NotificationServiceServer) GetNotificationToken(ctx context.Context, req *connect.Request[pb.GetNotificationTokenRequest]) (*connect.Response[pb.GetNotificationTokenResponse], error) {
 
 	if err := req.Msg.Validate(); err != nil {
-		log.Info("invalid request")
+		log.Info("Invalid request")
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
 	uid := strings.Split(req.Msg.Name, "/")[1]
 	log.Debug("uid: ", uid)
-	log.Debug("req header uid: ", req.Header().Get("uid"))
 
 	if uid != req.Header().Get("uid") {
+		log.Info("Permission denied")
 		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
 	}
 
 	token, err := service.tokenRepository.GetToken(ctx, uid)
 
-	if token == nil {
-		return nil, connect.NewError(connect.CodeNotFound, errors.New("token not found"))
-	}
-
 	if err != nil {
-		log.Info("failed to get token")
-		log.Error(err)
+		log.Error("Failed to get token: ", err)
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
-	log.Info("successfully retrieved token")
+	if token == nil {
+		log.Info("Token not found")
+		return nil, connect.NewError(connect.CodeNotFound, errors.New("token not found"))
+	}
+
 	log.Debug("token: ", *token)
+	log.Info("Successfully retrieved token")
 
 	return connect.NewResponse(&pb.GetNotificationTokenResponse{
 		Token: *token,
