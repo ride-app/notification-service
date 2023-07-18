@@ -8,6 +8,7 @@ import (
 
 	firebase "firebase.google.com/go/v4"
 	db "firebase.google.com/go/v4/db"
+	"github.com/sirupsen/logrus"
 )
 
 type TokenRepository interface {
@@ -24,6 +25,8 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 	rtdb, err := firebaseApp.Database(context.Background())
 
 	if err != nil {
+		logrus.Info("failed to initialize rtdb")
+		logrus.Error(err)
 		return nil, err
 	}
 
@@ -33,13 +36,19 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error) {
 	var token *string
 
+	logrus.Info("getting token from rtdb")
 	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, token)
 
 	if err != nil {
+		logrus.Info("failed to get token from rtdb")
+		logrus.Error(err)
 		return nil, err
 	}
 
+	logrus.Debug(token)
+
 	if token == nil || *token == "" {
+		logrus.Info("token not found")
 		return nil, nil
 	}
 
@@ -47,9 +56,12 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 }
 
 func (impl *RTDBImpl) UpdateToken(ctx context.Context, uid string, token string) error {
+	logrus.Info("updating token in rtdb")
 	err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Set(ctx, token)
 
 	if err != nil {
+		logrus.Info("failed to update token in rtdb")
+		logrus.Error(err)
 		return err
 	}
 
