@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/bufbuild/connect-go"
 	"github.com/ilyakaznacheev/cleanenv"
