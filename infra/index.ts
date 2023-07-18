@@ -37,6 +37,10 @@ const service = new gcp.cloudrun.Service("service", {
               name: "FIREBASE_DATABASE_URL",
               value: firebaseConfig.require("databaseURL"),
             },
+            {
+              name: "DEBUG",
+              value: new pulumi.Config().get("debug") ?? "false",
+            },
           ],
         },
       ],

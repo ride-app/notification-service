@@ -54,25 +54,6 @@ func main() {
 
 func init() {
 	log.SetReportCaller(true)
-	// if fileInfo, _ := os.Stdout.Stat(); (fileInfo.Mode() & os.ModeCharDevice) != 0 {
-	// log.SetFormatter(&log.TextFormatter{
-	// 	DisableLevelTruncation: true,
-	// 	PadLevelText:           true,
-	// 	CallerPrettyfier: func(f *runtime.Frame) (string, string) {
-	// 		dir, err := os.Getwd()
-	// 		if err != nil {
-	// 			dir = ""
-	// 		} else {
-	// 			dir = dir + "/"
-	// 		}
-
-	// 		filename := strings.Replace(f.File, dir, "", -1)
-
-	// 		return fmt.Sprintf("(%s)", path.Base(f.Function)), fmt.Sprintf(" %s:%d", filename, f.Line)
-
-	// 	},
-	// })
-	// }
 
 	log.SetFormatter(&log.JSONFormatter{
 		FieldMap: log.FieldMap{
@@ -83,7 +64,13 @@ func init() {
 		TimestampFormat: time.RFC3339Nano,
 	})
 
+	log.SetLevel(log.InfoLevel)
+
 	err := cleanenv.ReadEnv(&config.Env)
+
+	if config.Env.Debug {
+		log.SetLevel(log.DebugLevel)
+	}
 
 	if err != nil {
 		log.Warnf("Could not load config: %v", err)

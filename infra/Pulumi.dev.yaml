@@ -3,3 +3,4 @@ config:
   gcp:project: ride-app-dev-2
   gcp:region: asia-south1
   service:name: notification-service
+  debug: true
