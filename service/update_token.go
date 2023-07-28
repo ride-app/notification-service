@@ -35,7 +35,7 @@ func (service *NotificationServiceServer) UpdateNotificationToken(ctx context.Co
 	err := service.tokenRepository.UpdateToken(ctx, uid, req.Msg.Token)
 
 	if err != nil {
-		log.Error("Failed to update token: ", err)
+		log.WithError(err).Error("Failed to update token")
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 

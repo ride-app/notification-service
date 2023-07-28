@@ -22,7 +22,7 @@ func main() {
 	service, err := di.InitializeService()
 
 	if err != nil {
-		log.Fatalf("failed to initialize service: %v", err)
+		log.WithError(err).Fatal("failed to initialize service")
 	}
 
 	log.Info("service Initialized")
@@ -35,7 +35,7 @@ func main() {
 	authInterceptor, err := interceptors.NewAuthInterceptor(ctx)
 
 	if err != nil {
-		log.Fatalf("failed to initialize auth interceptor: %v", err)
+		log.WithError(err).Fatal("failed to initialize auth interceptor")
 	}
 
 	connectInterceptors := connect.WithInterceptors(authInterceptor)
@@ -73,6 +73,6 @@ func init() {
 	}
 
 	if err != nil {
-		log.Warnf("Could not load config: %v", err)
+		log.WithError(err).Warnf("Could not load config")
 	}
 }

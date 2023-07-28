@@ -28,7 +28,7 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 	token, err := service.tokenRepository.GetToken(ctx, uid)
 
 	if err != nil {
-		log.Error("Failed to get token: ", err)
+		log.WithError(err).Error("Failed to get token")
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 

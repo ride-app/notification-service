@@ -17,7 +17,7 @@ func NewAuthInterceptor(ctx context.Context) (*connect.UnaryInterceptorFunc, err
 	options := keyfunc.Options{
 		Ctx: ctx,
 		RefreshErrorHandler: func(err error) {
-			log.Fatal("There was an error with the jwt.Keyfunc: ", err)
+			log.Fatal("There was an error with the jwt.Keyfunc")
 		},
 		RefreshInterval:   time.Hour,
 		RefreshRateLimit:  time.Minute * 5,
@@ -28,7 +28,7 @@ func NewAuthInterceptor(ctx context.Context) (*connect.UnaryInterceptorFunc, err
 	jwks, err := keyfunc.Get(jwksURI, options)
 
 	if err != nil {
-		log.Error("Failed to create JWKS from URI", err)
+		log.WithError(err).Error("Failed to create JWKS from URI", err)
 		return nil, err
 	}
 

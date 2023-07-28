@@ -25,7 +25,7 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 	rtdb, err := firebaseApp.Database(context.Background())
 
 	if err != nil {
-		log.Fatal("failed to initialize rtdb: ", err)
+		log.Fatal("failed to initialize rtdb")
 		return nil, err
 	}
 
@@ -39,7 +39,7 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 	log.Debug(fmt.Sprintf("Path: messaging_tokens/%s", uid))
 
 	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Get(ctx, &token); err != nil {
-		log.Error("Failed to get token from rtdb: ", err)
+		log.WithError(err).Error("Failed to get token from rtdb")
 		return nil, err
 	}
 
@@ -55,7 +55,7 @@ func (impl *RTDBImpl) UpdateToken(ctx context.Context, uid string, token string)
 	log.Info("Updating token in rtdb")
 
 	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Set(ctx, token); err != nil {
-		log.Error("Failed to update token in rtdb: ", err)
+		log.WithError(err).Error("Failed to update token in rtdb")
 		return err
 	}
 
