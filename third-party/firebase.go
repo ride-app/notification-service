@@ -11,7 +11,7 @@ import (
 func NewFirebaseApp() (*firebase.App, error) {
 	ctx := context.Background()
 	conf := &firebase.Config{
-		ProjectID:   config.Env.Firebase_Project_Id,
+		ProjectID:   config.Env.Project_Id,
 		DatabaseURL: config.Env.Firebase_Database_url,
 	}
 	log.Info("initializing firebase app")

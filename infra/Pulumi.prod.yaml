@@ -1,5 +1,4 @@
 config:
   firebase:databaseURL: https://ride-app-prod-default-rtdb.asia-southeast1.firebasedatabase.app
-  gcp:project: ride-app-prod
-  gcp:region: asia-south2
-  service:name: notification-service
+  gcp:project: ride-app-dev-2
+  logDebug: true

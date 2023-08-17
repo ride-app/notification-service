@@ -1,3 +1,6 @@
 name: notification-service
 runtime: nodejs
 description: Infrastructure for notification-service
+config:
+  gcp:region: asia-east1
+  service:name: notification-service
