@@ -11,7 +11,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/google/wire v0.5.0
 	github.com/ilyakaznacheev/cleanenv v1.3.0
-	github.com/onsi/ginkgo/v2 v2.1.6
+	github.com/onsi/ginkgo/v2 v2.13.0
 	github.com/sirupsen/logrus v1.9.3
 	go.uber.org/zap v1.25.0
 	golang.org/x/net v0.0.0-20220722155237-a158d28d115b
