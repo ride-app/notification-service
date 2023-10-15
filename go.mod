@@ -14,7 +14,7 @@ require (
 	github.com/onsi/ginkgo/v2 v2.1.6
 	github.com/sirupsen/logrus v1.9.0
 	go.uber.org/zap v1.25.0
-	golang.org/x/net v0.0.0-20220722155237-a158d28d115b
+	golang.org/x/net v0.17.0
 	google.golang.org/genproto v0.0.0-20220909194730-69f6226f97e5
 	google.golang.org/grpc v1.49.0
 	google.golang.org/protobuf v1.31.0
