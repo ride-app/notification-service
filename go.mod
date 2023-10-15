@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	buf.build/gen/go/envoyproxy/protoc-gen-validate/protocolbuffers/go v1.31.0-20221025150516-6607b10f00ed.1
-	firebase.google.com/go/v4 v4.8.0
+	firebase.google.com/go/v4 v4.12.1
 	github.com/MicahParks/keyfunc/v2 v2.1.0
 	github.com/bufbuild/connect-go v1.9.0
 	github.com/golang-jwt/jwt/v5 v5.0.0
