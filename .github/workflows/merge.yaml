@@ -1,14 +1,14 @@
-name: pr
+name: Merge
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - trunk-merge/**
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    name: Build
+    name: Lint
     env:
       GOPRIVATE: buf.build/gen/go
       BUF_USER: debkanchan
@@ -30,3 +30,6 @@ jobs:
 
       - name: Build protobuf
         run: buf generate
+
+      - name: Lint
+        uses: trunk-io/trunk-action@v1
