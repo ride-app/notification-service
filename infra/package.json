@@ -1,7 +1,7 @@
 {
   "name": "notification-service",
   "devDependencies": {
-    "@types/node": "^20.10.3"
+    "@types/node": "20.10.3"
   },
   "dependencies": {
     "@pulumi/gcp": "^7.2.1",
