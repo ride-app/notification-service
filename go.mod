@@ -1,6 +1,6 @@
 module github.com/ride-app/notification-service
 
-go 1.21.5
+go 1.21.6
 
 require (
 	buf.build/gen/go/envoyproxy/protoc-gen-validate/protocolbuffers/go v1.31.0-20221025150516-6607b10f00ed.1
