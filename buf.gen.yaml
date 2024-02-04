@@ -1,24 +1,11 @@
 version: v1
-managed:
-  enabled: true
-  go_package_prefix:
-    default: github.com/ride-app/notification-service/api/gen
-    except:
-      - buf.build/googleapis/googleapis
-    override:
-      buf.build/envoyproxy/protoc-gen-validate: buf.build/gen/go/envoyproxy/protoc-gen-validate/protocolbuffers/go
 plugins:
   - plugin: buf.build/protocolbuffers/go
-    out: api/gen
+    out: api
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/connect-go
-    out: api/gen
-    opt:
-      - paths=source_relative
-
-  - plugin: buf.build/bufbuild/validate-go
-    out: api/gen
+    out: api
     opt:
       - paths=source_relative

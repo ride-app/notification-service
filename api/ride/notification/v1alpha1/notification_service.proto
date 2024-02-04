@@ -3,9 +3,11 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 import "google/api/annotations.proto";
-import "validate/validate.proto";
+import "buf/validate/validate.proto";
 
 package ride.notification.v1alpha1;
+
+option go_package = "github.com/ride-app/notification-service/api/ride/driver/v1alpha1";
 
 service NotificationService {
 
@@ -25,7 +27,7 @@ service NotificationService {
 
 message GetNotificationTokenRequest {
   // Relative resource name of the notification token. Example: users/123/token
-  string name = 1 [(validate.rules).string.pattern = "^users/[A-Za-z0-9_-]+/token$"];
+  string name = 1 [(buf.validate.field).string.pattern = "^users/[A-Za-z0-9_-]+/token$"];
 }
 
 message GetNotificationTokenResponse {
@@ -35,7 +37,7 @@ message GetNotificationTokenResponse {
 
 message UpdateNotificationTokenRequest {
   // Relative resource name of the notification token. Example: users/123/token
-  string name = 1 [(validate.rules).string.pattern = "^users/[A-Za-z0-9_-]+/token$"];
+  string name = 1 [(buf.validate.field).string.pattern = "^users/[A-Za-z0-9_-]+/token$"];
 
   // Notification token of the user.
   string token = 2;

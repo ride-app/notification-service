@@ -2,13 +2,13 @@
 //
 // Source: ride/notification/v1alpha1/notification_service.proto
 
-package notificationv1alpha1connect
+package v1alpha1connect
 
 import (
 	context "context"
 	errors "errors"
 	connect_go "github.com/bufbuild/connect-go"
-	v1alpha1 "github.com/ride-app/notification-service/api/gen/ride/notification/v1alpha1"
+	v1alpha1 "github.com/ride-app/notification-service/api/ride/driver/v1alpha1"
 	http "net/http"
 	strings "strings"
 )
