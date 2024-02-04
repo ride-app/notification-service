@@ -21,7 +21,7 @@ func InitializeService(logger2 logger.Logger, config2 *config.Config) (*apihandl
 	if err != nil {
 		return nil, err
 	}
-	rtdbImpl, err := tokenrepository.NewRTDBTokenRepository(app)
+	rtdbImpl, err := tokenrepository.NewRTDBTokenRepository(app, logger2)
 	if err != nil {
 		return nil, err
 	}

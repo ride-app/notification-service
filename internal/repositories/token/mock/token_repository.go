@@ -8,6 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
+	logger "github.com/deb-tech-n-sol/go/pkg/logger"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -35,30 +36,30 @@ func (m *MockTokenRepository) EXPECT() *MockTokenRepositoryMockRecorder {
 }
 
 // GetToken mocks base method.
-func (m *MockTokenRepository) GetToken(arg0 context.Context, arg1 string) (*string, error) {
+func (m *MockTokenRepository) GetToken(arg0 context.Context, arg1 logger.Logger, arg2 string) (*string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetToken", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetToken", arg0, arg1, arg2)
 	ret0, _ := ret[0].(*string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetToken indicates an expected call of GetToken.
-func (mr *MockTokenRepositoryMockRecorder) GetToken(arg0, arg1 interface{}) *gomock.Call {
+func (mr *MockTokenRepositoryMockRecorder) GetToken(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetToken", reflect.TypeOf((*MockTokenRepository)(nil).GetToken), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetToken", reflect.TypeOf((*MockTokenRepository)(nil).GetToken), arg0, arg1, arg2)
 }
 
 // UpdateToken mocks base method.
-func (m *MockTokenRepository) UpdateToken(arg0 context.Context, arg1, arg2 string) error {
+func (m *MockTokenRepository) UpdateToken(arg0 context.Context, arg1 logger.Logger, arg2, arg3 string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateToken", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateToken", arg0, arg1, arg2, arg3)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateToken indicates an expected call of UpdateToken.
-func (mr *MockTokenRepositoryMockRecorder) UpdateToken(arg0, arg1, arg2 interface{}) *gomock.Call {
+func (mr *MockTokenRepositoryMockRecorder) UpdateToken(arg0, arg1, arg2, arg3 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateToken", reflect.TypeOf((*MockTokenRepository)(nil).UpdateToken), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateToken", reflect.TypeOf((*MockTokenRepository)(nil).UpdateToken), arg0, arg1, arg2, arg3)
 }

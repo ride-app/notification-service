@@ -8,20 +8,20 @@ import (
 
 	firebase "firebase.google.com/go/v4"
 	db "firebase.google.com/go/v4/db"
-	log "github.com/sirupsen/logrus"
+	"github.com/deb-tech-n-sol/go/pkg/logger"
 )
 
 type TokenRepository interface {
-	GetToken(ctx context.Context, uid string) (*string, error)
+	GetToken(ctx context.Context, log logger.Logger, uid string) (*string, error)
 
-	UpdateToken(ctx context.Context, uid string, token string) error
+	UpdateToken(ctx context.Context, log logger.Logger, uid string, token string) error
 }
 
 type RTDBImpl struct {
 	rtdb *db.Client
 }
 
-func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
+func NewRTDBTokenRepository(firebaseApp *firebase.App, log logger.Logger) (*RTDBImpl, error) {
 	rtdb, err := firebaseApp.Database(context.Background())
 
 	if err != nil {
@@ -32,7 +32,7 @@ func NewRTDBTokenRepository(firebaseApp *firebase.App) (*RTDBImpl, error) {
 	return &RTDBImpl{rtdb: rtdb}, nil
 }
 
-func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error) {
+func (impl *RTDBImpl) GetToken(ctx context.Context, log logger.Logger, uid string) (*string, error) {
 	var token string
 
 	log.Info("Getting token from rtdb")
@@ -51,7 +51,7 @@ func (impl *RTDBImpl) GetToken(ctx context.Context, uid string) (*string, error)
 	return &token, nil
 }
 
-func (impl *RTDBImpl) UpdateToken(ctx context.Context, uid string, token string) error {
+func (impl *RTDBImpl) UpdateToken(ctx context.Context, log logger.Logger, uid string, token string) error {
 	log.Info("Updating token in rtdb")
 
 	if err := impl.rtdb.NewRef(fmt.Sprintf("messaging_tokens/%s", uid)).Set(ctx, token); err != nil {
