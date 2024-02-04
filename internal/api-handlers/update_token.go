@@ -44,7 +44,7 @@ func (service *NotificationServiceServer) UpdateNotificationToken(ctx context.Co
 		return nil, status.Error(codes.InvalidArgument, "Token cannot be empty")
 	}
 
-	err = service.tokenRepository.UpdateToken(ctx, uid, req.Msg.Token)
+	err = service.tokenRepository.UpdateToken(ctx, log, uid, req.Msg.Token)
 
 	if err != nil {
 		log.WithError(err).Error("Failed to update token")

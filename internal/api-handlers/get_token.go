@@ -37,7 +37,7 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
 	}
 
-	token, err := service.tokenRepository.GetToken(ctx, uid)
+	token, err := service.tokenRepository.GetToken(ctx, log, uid)
 
 	if err != nil {
 		log.WithError(err).Error("Failed to get token")
