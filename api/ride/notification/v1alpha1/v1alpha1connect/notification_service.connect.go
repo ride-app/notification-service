@@ -5,10 +5,10 @@
 package v1alpha1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
-	v1alpha1 "github.com/ride-app/notification-service/api/ride/driver/v1alpha1"
+	v1alpha1 "github.com/ride-app/notification-service/api/ride/notification/v1alpha1"
 	http "net/http"
 	strings "strings"
 )
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// NotificationServiceName is the fully-qualified name of the NotificationService service.
@@ -41,11 +41,18 @@ const (
 	NotificationServiceUpdateNotificationTokenProcedure = "/ride.notification.v1alpha1.NotificationService/UpdateNotificationToken"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	notificationServiceServiceDescriptor                       = v1alpha1.File_ride_notification_v1alpha1_notification_service_proto.Services().ByName("NotificationService")
+	notificationServiceGetNotificationTokenMethodDescriptor    = notificationServiceServiceDescriptor.Methods().ByName("GetNotificationToken")
+	notificationServiceUpdateNotificationTokenMethodDescriptor = notificationServiceServiceDescriptor.Methods().ByName("UpdateNotificationToken")
+)
+
 // NotificationServiceClient is a client for the ride.notification.v1alpha1.NotificationService
 // service.
 type NotificationServiceClient interface {
-	GetNotificationToken(context.Context, *connect_go.Request[v1alpha1.GetNotificationTokenRequest]) (*connect_go.Response[v1alpha1.GetNotificationTokenResponse], error)
-	UpdateNotificationToken(context.Context, *connect_go.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect_go.Response[v1alpha1.UpdateNotificationTokenResponse], error)
+	GetNotificationToken(context.Context, *connect.Request[v1alpha1.GetNotificationTokenRequest]) (*connect.Response[v1alpha1.GetNotificationTokenResponse], error)
+	UpdateNotificationToken(context.Context, *connect.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect.Response[v1alpha1.UpdateNotificationTokenResponse], error)
 }
 
 // NewNotificationServiceClient constructs a client for the
@@ -56,44 +63,46 @@ type NotificationServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewNotificationServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) NotificationServiceClient {
+func NewNotificationServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) NotificationServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &notificationServiceClient{
-		getNotificationToken: connect_go.NewClient[v1alpha1.GetNotificationTokenRequest, v1alpha1.GetNotificationTokenResponse](
+		getNotificationToken: connect.NewClient[v1alpha1.GetNotificationTokenRequest, v1alpha1.GetNotificationTokenResponse](
 			httpClient,
 			baseURL+NotificationServiceGetNotificationTokenProcedure,
-			opts...,
+			connect.WithSchema(notificationServiceGetNotificationTokenMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		updateNotificationToken: connect_go.NewClient[v1alpha1.UpdateNotificationTokenRequest, v1alpha1.UpdateNotificationTokenResponse](
+		updateNotificationToken: connect.NewClient[v1alpha1.UpdateNotificationTokenRequest, v1alpha1.UpdateNotificationTokenResponse](
 			httpClient,
 			baseURL+NotificationServiceUpdateNotificationTokenProcedure,
-			opts...,
+			connect.WithSchema(notificationServiceUpdateNotificationTokenMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // notificationServiceClient implements NotificationServiceClient.
 type notificationServiceClient struct {
-	getNotificationToken    *connect_go.Client[v1alpha1.GetNotificationTokenRequest, v1alpha1.GetNotificationTokenResponse]
-	updateNotificationToken *connect_go.Client[v1alpha1.UpdateNotificationTokenRequest, v1alpha1.UpdateNotificationTokenResponse]
+	getNotificationToken    *connect.Client[v1alpha1.GetNotificationTokenRequest, v1alpha1.GetNotificationTokenResponse]
+	updateNotificationToken *connect.Client[v1alpha1.UpdateNotificationTokenRequest, v1alpha1.UpdateNotificationTokenResponse]
 }
 
 // GetNotificationToken calls ride.notification.v1alpha1.NotificationService.GetNotificationToken.
-func (c *notificationServiceClient) GetNotificationToken(ctx context.Context, req *connect_go.Request[v1alpha1.GetNotificationTokenRequest]) (*connect_go.Response[v1alpha1.GetNotificationTokenResponse], error) {
+func (c *notificationServiceClient) GetNotificationToken(ctx context.Context, req *connect.Request[v1alpha1.GetNotificationTokenRequest]) (*connect.Response[v1alpha1.GetNotificationTokenResponse], error) {
 	return c.getNotificationToken.CallUnary(ctx, req)
 }
 
 // UpdateNotificationToken calls
 // ride.notification.v1alpha1.NotificationService.UpdateNotificationToken.
-func (c *notificationServiceClient) UpdateNotificationToken(ctx context.Context, req *connect_go.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect_go.Response[v1alpha1.UpdateNotificationTokenResponse], error) {
+func (c *notificationServiceClient) UpdateNotificationToken(ctx context.Context, req *connect.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect.Response[v1alpha1.UpdateNotificationTokenResponse], error) {
 	return c.updateNotificationToken.CallUnary(ctx, req)
 }
 
 // NotificationServiceHandler is an implementation of the
 // ride.notification.v1alpha1.NotificationService service.
 type NotificationServiceHandler interface {
-	GetNotificationToken(context.Context, *connect_go.Request[v1alpha1.GetNotificationTokenRequest]) (*connect_go.Response[v1alpha1.GetNotificationTokenResponse], error)
-	UpdateNotificationToken(context.Context, *connect_go.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect_go.Response[v1alpha1.UpdateNotificationTokenResponse], error)
+	GetNotificationToken(context.Context, *connect.Request[v1alpha1.GetNotificationTokenRequest]) (*connect.Response[v1alpha1.GetNotificationTokenResponse], error)
+	UpdateNotificationToken(context.Context, *connect.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect.Response[v1alpha1.UpdateNotificationTokenResponse], error)
 }
 
 // NewNotificationServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -101,16 +110,18 @@ type NotificationServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewNotificationServiceHandler(svc NotificationServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	notificationServiceGetNotificationTokenHandler := connect_go.NewUnaryHandler(
+func NewNotificationServiceHandler(svc NotificationServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	notificationServiceGetNotificationTokenHandler := connect.NewUnaryHandler(
 		NotificationServiceGetNotificationTokenProcedure,
 		svc.GetNotificationToken,
-		opts...,
+		connect.WithSchema(notificationServiceGetNotificationTokenMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	notificationServiceUpdateNotificationTokenHandler := connect_go.NewUnaryHandler(
+	notificationServiceUpdateNotificationTokenHandler := connect.NewUnaryHandler(
 		NotificationServiceUpdateNotificationTokenProcedure,
 		svc.UpdateNotificationToken,
-		opts...,
+		connect.WithSchema(notificationServiceUpdateNotificationTokenMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/ride.notification.v1alpha1.NotificationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -127,10 +138,10 @@ func NewNotificationServiceHandler(svc NotificationServiceHandler, opts ...conne
 // UnimplementedNotificationServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedNotificationServiceHandler struct{}
 
-func (UnimplementedNotificationServiceHandler) GetNotificationToken(context.Context, *connect_go.Request[v1alpha1.GetNotificationTokenRequest]) (*connect_go.Response[v1alpha1.GetNotificationTokenResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("ride.notification.v1alpha1.NotificationService.GetNotificationToken is not implemented"))
+func (UnimplementedNotificationServiceHandler) GetNotificationToken(context.Context, *connect.Request[v1alpha1.GetNotificationTokenRequest]) (*connect.Response[v1alpha1.GetNotificationTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ride.notification.v1alpha1.NotificationService.GetNotificationToken is not implemented"))
 }
 
-func (UnimplementedNotificationServiceHandler) UpdateNotificationToken(context.Context, *connect_go.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect_go.Response[v1alpha1.UpdateNotificationTokenResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("ride.notification.v1alpha1.NotificationService.UpdateNotificationToken is not implemented"))
+func (UnimplementedNotificationServiceHandler) UpdateNotificationToken(context.Context, *connect.Request[v1alpha1.UpdateNotificationTokenRequest]) (*connect.Response[v1alpha1.UpdateNotificationTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ride.notification.v1alpha1.NotificationService.UpdateNotificationToken is not implemented"))
 }

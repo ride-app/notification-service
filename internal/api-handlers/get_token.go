@@ -1,19 +1,31 @@
-package service
+package apihandlers
 
 import (
 	"context"
 	"errors"
 	"strings"
 
-	"github.com/bufbuild/connect-go"
-	pb "github.com/ride-app/notification-service/api/gen/ride/notification/v1alpha1"
-	log "github.com/sirupsen/logrus"
+	"connectrpc.com/connect"
+	"github.com/bufbuild/protovalidate-go"
+	pb "github.com/ride-app/notification-service/api/ride/notification/v1alpha1"
 )
 
 func (service *NotificationServiceServer) GetNotificationToken(ctx context.Context, req *connect.Request[pb.GetNotificationTokenRequest]) (*connect.Response[pb.GetNotificationTokenResponse], error) {
 
-	if err := req.Msg.Validate(); err != nil {
-		log.Info("Invalid request")
+	log := service.logger.WithFields(map[string]string{
+		"method": "GetNotificationToken",
+	})
+
+	validator, err := protovalidate.New()
+	if err != nil {
+		log.WithError(err).Info("Failed to initialize validator")
+
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		log.WithError(err).Info("Invalid request")
+
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
@@ -37,10 +49,17 @@ func (service *NotificationServiceServer) GetNotificationToken(ctx context.Conte
 		return nil, connect.NewError(connect.CodeNotFound, errors.New("token not found"))
 	}
 
+	res := connect.NewResponse(&pb.GetNotificationTokenResponse{
+		Token: *token,
+	})
+
+	if err := validator.Validate(res.Msg); err != nil {
+		log.WithError(err).Error("Invalid response")
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
 	log.Debug("token: ", *token)
 	log.Info("Successfully retrieved token")
 
-	return connect.NewResponse(&pb.GetNotificationTokenResponse{
-		Token: *token,
-	}), nil
+	return res, nil
 }

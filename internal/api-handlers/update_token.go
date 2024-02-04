@@ -1,21 +1,33 @@
-package service
+package apihandlers
 
 import (
 	"context"
 	"errors"
 	"strings"
 
-	"github.com/bufbuild/connect-go"
-	pb "github.com/ride-app/notification-service/api/gen/ride/notification/v1alpha1"
-	log "github.com/sirupsen/logrus"
+	"connectrpc.com/connect"
+	"github.com/bufbuild/protovalidate-go"
+	pb "github.com/ride-app/notification-service/api/ride/notification/v1alpha1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func (service *NotificationServiceServer) UpdateNotificationToken(ctx context.Context, req *connect.Request[pb.UpdateNotificationTokenRequest]) (*connect.Response[pb.UpdateNotificationTokenResponse], error) {
 
-	if err := req.Msg.Validate(); err != nil {
-		log.Info("Invalid request")
+	log := service.logger.WithFields(map[string]string{
+		"method": "UpdateNotificationToken",
+	})
+
+	validator, err := protovalidate.New()
+	if err != nil {
+		log.WithError(err).Info("Failed to initialize validator")
+
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		log.WithError(err).Info("Invalid request")
+
 		return nil, connect.NewError(connect.CodeInvalidArgument, err)
 	}
 
@@ -32,14 +44,21 @@ func (service *NotificationServiceServer) UpdateNotificationToken(ctx context.Co
 		return nil, status.Error(codes.InvalidArgument, "Token cannot be empty")
 	}
 
-	err := service.tokenRepository.UpdateToken(ctx, uid, req.Msg.Token)
+	err = service.tokenRepository.UpdateToken(ctx, uid, req.Msg.Token)
 
 	if err != nil {
 		log.WithError(err).Error("Failed to update token")
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
+	res := connect.NewResponse(&pb.UpdateNotificationTokenResponse{})
+
+	if err := validator.Validate(res.Msg); err != nil {
+		log.WithError(err).Error("Invalid response")
+		return nil, connect.NewError(connect.CodeInternal, err)
+	}
+
 	log.Info("Successfully updated token")
 
-	return connect.NewResponse(&pb.UpdateNotificationTokenResponse{}), nil
+	return res, nil
 }

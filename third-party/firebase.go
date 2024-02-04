@@ -4,22 +4,20 @@ import (
 	"context"
 
 	firebase "firebase.google.com/go/v4"
+	"github.com/deb-tech-n-sol/go/pkg/logger"
 	"github.com/ride-app/notification-service/config"
-	log "github.com/sirupsen/logrus"
 )
 
-func NewFirebaseApp() (*firebase.App, error) {
+func NewFirebaseApp(log logger.Logger, config *config.Config) (*firebase.App, error) {
 	ctx := context.Background()
 	conf := &firebase.Config{
-		ProjectID:   config.Env.Project_Id,
-		DatabaseURL: config.Env.Firebase_Database_url,
+		ProjectID:   config.ProjectID,
+		DatabaseURL: config.FirebaseDatabaseUrl,
 	}
-	log.Info("initializing firebase app")
 	app, err := firebase.NewApp(ctx, conf)
 
 	if err != nil {
-		log.Info("failed to initialize firebase app")
-		log.Fatalln(err)
+		log.WithError(err).Fatal("Cannot initialize firebase app")
 		return nil, err
 	}
 

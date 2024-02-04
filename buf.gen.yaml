@@ -5,7 +5,7 @@ plugins:
     opt:
       - paths=source_relative
 
-  - plugin: buf.build/bufbuild/connect-go
+  - plugin: buf.build/connectrpc/go
     out: api
     opt:
       - paths=source_relative

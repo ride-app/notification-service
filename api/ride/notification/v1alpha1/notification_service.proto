@@ -7,7 +7,7 @@ import "buf/validate/validate.proto";
 
 package ride.notification.v1alpha1;
 
-option go_package = "github.com/ride-app/notification-service/api/ride/driver/v1alpha1";
+option go_package = "github.com/ride-app/notification-service/api/ride/notification/v1alpha1";
 
 service NotificationService {
 
