@@ -11,6 +11,6 @@ jobs:
   buf-push:
     uses: ride-app/workflows/.github/workflows/buf-push.yaml@main
     with:
-      buf-mod-dir: api/proto
+      buf-mod-dir: api
     secrets:
       buf-token: ${{ secrets.BUF_TOKEN }}

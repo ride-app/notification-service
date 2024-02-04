@@ -1,37 +1,23 @@
 name: Nightly
 
+permissions: read-all
+
 on:
   schedule:
     - cron: 0 0 * * 0-6
   workflow_dispatch:
 
 jobs:
-  trunk_check:
-    name: Trunk Check Upload
+  trunk_upgrade:
+    name: Upgrade Trunk
     runs-on: ubuntu-latest
-    env:
-      GOPRIVATE: buf.build/gen/go
-      BUF_USER: debkanchan
-
+    timeout-minutes: 10
+    permissions:
+      contents: write # For trunk to create PRs
+      pull-requests: write # For trunk to create PRs
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5
-        with:
-          go-version-file: go.mod
-
-      - uses: bufbuild/buf-setup-action@88db93f5d74ffa329bb43e42aa95cd822697d214 # v1.29.0
-        with:
-          github_token: ${{ github.token }}
-
-      - name: Authenticate buf
-        run: echo ${{ secrets.BUF_TOKEN }} | buf registry login --username ${{ env.BUF_USER }} --token-stdin
-
-      - name: Build protobuf
-        run: buf generate
-
-      - name: Trunk Check
-        uses: trunk-io/trunk-action@65228585e2c6128315f0f2d5190e2eae7f5c32c6 # v1
-        with:
-          trunk-token: ${{ secrets.TRUNK_TOKEN }}
+      - name: Trunk Upgrade
+        uses: trunk-io/trunk-action/upgrade@97ecd21fe6c743bf7a606791584b683a7995c70e # v1
