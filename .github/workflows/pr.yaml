@@ -4,15 +4,20 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - trunk-merge/**
+
+permissions: read-all
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     name: Build
-    env:
-      GOPRIVATE: buf.build/gen/go
-      BUF_USER: debkanchan
-
+    permissions:
+      checks: write # For trunk to post annotations
+      contents: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
@@ -23,10 +28,9 @@ jobs:
 
       - uses: bufbuild/buf-setup-action@88db93f5d74ffa329bb43e42aa95cd822697d214 # v1.29.0
         with:
+          buf_user: ${{ env.BUF_USER }}
+          buf_api_token: ${{ secrets.BUF_TOKEN }}
           github_token: ${{ github.token }}
 
-      - name: Authenticate buf
-        run: echo ${{ secrets.BUF_TOKEN }} | buf registry login --username ${{ env.BUF_USER }} --token-stdin
-
-      - name: Build protobuf
-        run: buf generate
+      - name: Build
+        run: docker build .
