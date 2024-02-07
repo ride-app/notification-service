@@ -10,7 +10,7 @@
 #   buf registry login --username=$BUF_USERNAME --token-stdin < /run/secrets/BUF_TOKEN
 
 # Build go binary
-FROM golang:1.21-alpine@sha256:a6a7f1fcf12f5efa9e04b1e75020931a616cd707f14f62ab5262bfbe109aa84a as build
+FROM golang:1.21-alpine@sha256:f63ad366ae27636efbab3565c26a267dfbfbf3cce27bfa4857f3b7e8ee04208f as build
 
 WORKDIR /go/src/app
 
