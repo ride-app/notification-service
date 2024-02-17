@@ -3,12 +3,15 @@
 
 # This setting contains a list of rules that Sweep will check for. If any of these rules are broken in a new commit, Sweep will create an pull request to fix the broken rule.
 rules:
-  - "All new business logic should have corresponding unit tests."
-  - "Refactor large functions to be more modular."
-  - "Add docstrings to all functions and file headers."
+  - All new business logic should have corresponding unit tests.
+  - Refactor large functions to be more modular.
+  - Add docstrings to all functions and file headers.
+  - Logging should be used to track state changes.
+  - Use github.com/dragonfish/go/pkg/logger for logging.
+  - Write code that adheres to the Go style guide.
 
 # This is the branch that Sweep will develop from and make pull requests to. Most people use 'main' or 'master' but some users also use 'dev' or 'staging'.
-branch: 'main'
+branch: main
 
 # By default Sweep will read the logs and outputs from your existing Github Actions. To disable this, set this to false.
 gha_enabled: True
@@ -18,7 +21,7 @@ gha_enabled: True
 # Example:
 #
 # description: sweepai/sweep is a python project. The main api endpoints are in sweepai/api.py. Write code that adheres to PEP8.
-description: ''
+description: github.com/ride-app/notification-service is a go based microservice that manages notifiction tokens. api definition is made using protocol buffers in /api and api handlers are in /internal/api-handlers. It uses connectrpc.com/connect instead of plain http or grpc. The api server code is in cmd/api-server. Infrastructure is managed by a pulumi typescript project in /infra directory. It uses Docker as build system.
 
 # This sets whether to create pull requests as drafts. If this is set to True, then all pull requests will be created as drafts and GitHub Actions will not be triggered.
 draft: False
