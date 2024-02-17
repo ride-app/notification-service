@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	logger "github.com/dragonfish-tech/go/pkg/logger"
+	logger "github.com/dragonfish/go/pkg/logger"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -43,7 +43,6 @@ func (m *MockTokenRepository) GetToken(arg0 context.Context, arg1 logger.Logger,
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
-
 // GetToken indicates an expected call of GetToken.
 func (mr *MockTokenRepositoryMockRecorder) GetToken(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
