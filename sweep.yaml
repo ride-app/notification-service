@@ -28,3 +28,11 @@ draft: False
 
 # This is a list of directories that Sweep will not be able to edit.
 blocked_dirs: []
+
+# Sandbox allows you to run linters and formatters. This is useful for making sweep runs checks on your code after making any changes.
+sandbox:
+  install:
+    - trunk --version
+  check:
+    - trunk fmt {file_path}
+    - trunk check --fix {file_path}
