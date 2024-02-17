@@ -1,7 +1,7 @@
 package apihandlers
 
 import (
-	"github.com/dragonfish-tech/go/pkg/logger"
+	"github.com/dragonfish/go/pkg/logger"
 	tokenrepository "github.com/ride-app/notification-service/internal/repositories/token"
 )
 
