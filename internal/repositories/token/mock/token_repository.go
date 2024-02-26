@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	logger "github.com/dragonfish/go/pkg/logger"
+	logger "github.com/dragonfish/go/v2/pkg/logger"
 	gomock "github.com/golang/mock/gomock"
 )
 

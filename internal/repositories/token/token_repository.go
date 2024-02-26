@@ -8,7 +8,7 @@ import (
 
 	firebase "firebase.google.com/go/v4"
 	db "firebase.google.com/go/v4/db"
-	"github.com/dragonfish/go/pkg/logger"
+	"github.com/dragonfish/go/v2/pkg/logger"
 )
 
 type TokenRepository interface {
