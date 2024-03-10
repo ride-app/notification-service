@@ -58,4 +58,4 @@ lint:
 
 merge:
   required_statuses:
-    - Lint
+    - Build
