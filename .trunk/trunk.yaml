@@ -35,6 +35,17 @@ lint:
   disabled:
     - gokart
 
+    ignore:
+    - linters: [ALL]
+      paths:
+        - tools
+        - "**/node_modules/**"
+        - "**/pnpm-lock.yaml"
+
+    - linters: [goimports]
+      paths:
+        - "**/wire_gen.go"
+
 merge:
   required_statuses:
     - Build
