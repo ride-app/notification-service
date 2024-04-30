@@ -3,7 +3,7 @@ module github.com/ride-app/notification-service
 go 1.22.2
 
 require (
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.33.0-20240401165935-b983156c5e99.1
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.34.0-20240401165935-b983156c5e99.1
 	connectrpc.com/authn v0.1.0
 	connectrpc.com/connect v1.16.1
 	firebase.google.com/go/v4 v4.14.0
