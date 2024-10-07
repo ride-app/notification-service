@@ -14,7 +14,7 @@ require (
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/onsi/ginkgo/v2 v2.19.1
 	golang.org/x/net v0.28.0
-	google.golang.org/genproto/googleapis/api v0.0.0-20240924160255-9d4c2d233b61
+	google.golang.org/genproto/googleapis/api 5fefd90f89a9
 	google.golang.org/grpc v1.67.0
 	google.golang.org/protobuf v1.34.2
 )
