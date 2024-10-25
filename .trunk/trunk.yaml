@@ -1,12 +1,12 @@
 version: 0.1
 
 cli:
-  version: 1.22.6
+  version: 1.22.7
 
 plugins:
   sources:
     - id: trunk
-      ref: v1.6.3
+      ref: v1.6.4
       uri: https://github.com/trunk-io/plugins
     - id: trunk-plugins
       ref: v1.2.0
